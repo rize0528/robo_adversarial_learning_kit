@@ -108,7 +108,7 @@ class TestVLMLoader:
         # Test valid model
         config = loader.get_model_config("gemma_4b")
         assert isinstance(config, ModelConfig)
-        assert config.model_type == "gemma"
+        assert config.model_type == "gemma3"
         
         # Test invalid model
         with pytest.raises(ValueError, match="not found in configuration"):

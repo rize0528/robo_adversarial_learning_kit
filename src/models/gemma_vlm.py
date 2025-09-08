@@ -1,7 +1,10 @@
 """Gemma VLM implementation for adversarial testing."""
 
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoProcessor
+from transformers import (
+    AutoTokenizer, AutoModelForCausalLM, AutoProcessor, 
+    Gemma3ForConditionalGeneration, Gemma3ForCausalLM
+)
 from PIL import Image
 from typing import Optional, List, Dict, Any, Union
 import logging
@@ -56,16 +59,30 @@ class GemmaVLM(VLMLoader):
             if self.tokenizer.pad_token is None:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
             
-            # Load model
+            # Load model based on model type
             logger.info("Loading model...")
-            self.model = AutoModelForCausalLM.from_pretrained(
-                model_config.model_name,
-                torch_dtype=model_config.get_torch_dtype(),
-                device_map=model_config.device_map,
-                trust_remote_code=model_config.trust_remote_code,
-                cache_dir=model_config.cache_dir,
-                low_cpu_mem_usage=True
-            )
+            if model_config.model_type == "gemma3":
+                # Use Gemma3ForConditionalGeneration for multimodal capabilities
+                logger.info("Loading Gemma 3 multimodal model...")
+                self.model = Gemma3ForConditionalGeneration.from_pretrained(
+                    model_config.model_name,
+                    torch_dtype=model_config.get_torch_dtype(),
+                    device_map=model_config.device_map,
+                    trust_remote_code=model_config.trust_remote_code,
+                    cache_dir=model_config.cache_dir,
+                    low_cpu_mem_usage=True
+                )
+            else:
+                # Use AutoModelForCausalLM for text-only models
+                logger.info("Loading text-only Gemma model...")
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    model_config.model_name,
+                    torch_dtype=model_config.get_torch_dtype(),
+                    device_map=model_config.device_map,
+                    trust_remote_code=model_config.trust_remote_code,
+                    cache_dir=model_config.cache_dir,
+                    low_cpu_mem_usage=True
+                )
             
             # Enable gradient checkpointing if configured
             runtime = self.config.get("runtime", {})

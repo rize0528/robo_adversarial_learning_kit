@@ -2,21 +2,21 @@
 
 # Primary model configuration
 models:
-  # Gemma-3 4B - Primary choice for balanced performance/memory
+  # Gemma-3 4B - Primary choice for balanced performance/memory (multimodal VLM)
   gemma_4b:
-    model_name: "google/gemma-2-9b-it"  # Using 9B as closest available
-    model_type: "gemma"
-    max_memory_gb: 12
+    model_name: "google/gemma-3-4b-it"  # Actual Gemma 3 4B with vision capabilities
+    model_type: "gemma3"
+    max_memory_gb: 8  # Based on research: 6.4GB for BF16, allowing some buffer
     torch_dtype: "float16"  
     device_map: "auto"
     trust_remote_code: true
     cache_dir: "./models/cache"
     
-  # Gemma-3 12B - Fallback for better performance if memory allows  
-  gemma_12b:
-    model_name: "google/gemma-2-27b-it"  # Using 27B as larger variant
-    model_type: "gemma"
-    max_memory_gb: 24
+  # Gemma-3 27B - Fallback for better performance if memory allows  
+  gemma_27b:
+    model_name: "google/gemma-3-27b-it"  # Actual Gemma 3 27B with vision capabilities
+    model_type: "gemma3"
+    max_memory_gb: 16  # Conservative estimate for 27B model
     torch_dtype: "float16"
     device_map: "auto" 
     trust_remote_code: true
@@ -54,7 +54,7 @@ runtime:
 # Model selection priority (will try in order until successful)
 model_priority:
   - "gemma_4b"
-  - "gemma_12b" 
+  - "gemma_27b" 
 
 # System requirements
 system:

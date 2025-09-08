@@ -4,7 +4,7 @@ status: backlog
 created: 2025-09-08T08:37:21Z
 progress: 0%
 prd: .claude/prds/vlm-adversarial-patch-finder.md
-github: [Will be updated when synced to GitHub]
+github: https://github.com/rize0528/robo_adversarial_learning_kit/issues/1
 ---
 
 # Epic: VLM Adversarial Patch Finder
@@ -144,18 +144,18 @@ Simplified to essential tasks (maximum 10):
 - 2 days for exhibition setup and rehearsal
 
 ## Tasks Created
-- [ ] 001.md - Environment & Model Setup (parallel: false)
-- [ ] 002.md - Data Pipeline (parallel: false, depends on 001)
-- [ ] 003.md - Patch Optimization Core (parallel: false, depends on 001, 002)
-- [ ] 004.md - Loss Functions (parallel: true, can run with 003)
-- [ ] 005.md - Patch Generation Script (parallel: false, depends on 003, 004)
-- [ ] 006.md - Camera Integration (parallel: true, can run independently)
-- [ ] 007.md - Demo Interface (parallel: false, depends on 001, 006)
-- [ ] 008.md - Exhibition Presets (parallel: false, depends on 005, 007)
-- [ ] 009.md - Testing & Validation (parallel: false, depends on all)
-- [ ] 010.md - Documentation & Packaging (parallel: false, depends on 009)
+- [ ] #3 - Environment & Model Setup (parallel: false)
+- [ ] #10 - Data Pipeline (parallel: false, depends on #3)
+- [ ] #11 - Patch Optimization Core (parallel: false, depends on #3, #10)
+- [ ] #5 - Loss Functions (parallel: true, can run with #11)
+- [ ] #7 - Patch Generation Script (parallel: false, depends on #11, #5)
+- [ ] #8 - Camera Integration (parallel: true, can run independently)
+- [ ] #2 - Demo Interface (parallel: false, depends on #3, #8)
+- [ ] #4 - Exhibition Presets (parallel: false, depends on #7, #2)
+- [ ] #6 - Testing & Validation (parallel: false, depends on all)
+- [ ] #9 - Documentation & Packaging (parallel: false, depends on #6)
 
 Total tasks: 10
-Parallel tasks: 2 (tasks 004, 006)
+Parallel tasks: 2 (issues #5, #8)
 Sequential tasks: 8
 Estimated total effort: 86 hours

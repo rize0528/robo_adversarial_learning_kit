@@ -5,11 +5,24 @@ used in adversarial attacks on VLMs, including targeted and non-targeted attacks
 with support for regularization and batch processing.
 """
 
-from .base import LossFunction, RegularizationTerm
-from .factory import LossFactory
+from .base import (
+    LossFunction, 
+    BatchLossFunction,
+    LossConfig,
+    RegularizationTerm,
+    TotalVariationLoss,
+    SmoothnessPenalty
+)
+from .factory import LossFactory, get_default_factory, create_loss_function
 
 __all__ = [
     "LossFunction",
+    "BatchLossFunction",
+    "LossConfig",
     "RegularizationTerm", 
-    "LossFactory"
+    "TotalVariationLoss",
+    "SmoothnessPenalty",
+    "LossFactory",
+    "get_default_factory",
+    "create_loss_function"
 ]

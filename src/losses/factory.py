@@ -40,6 +40,9 @@ class LossFactory:
         # Register built-in regularization terms
         self._register_builtin_regularizers()
         
+        # Register built-in loss functions
+        self._register_builtin_loss_functions()
+        
         # Load configuration if provided
         if config_path and Path(config_path).exists():
             self.config = self._load_config()
@@ -91,6 +94,33 @@ class LossFactory:
         self.regularization_registry["tv"] = TotalVariationLoss  # Alias
         
         logger.info(f"Registered {len(self.regularization_registry)} built-in regularization terms")
+    
+    def _register_builtin_loss_functions(self):
+        """Register built-in loss functions."""
+        try:
+            # Import loss functions here to avoid circular imports
+            from .targeted import TargetedLoss
+            from .non_targeted import NonTargetedLoss
+            from .composite import CompositeLoss, BatchCompositeLoss
+            
+            # Register targeted loss functions
+            self.loss_registry["targeted"] = TargetedLoss
+            self.loss_registry["targeted_attack"] = TargetedLoss  # Alias
+            
+            # Register non-targeted loss functions
+            self.loss_registry["non_targeted"] = NonTargetedLoss
+            self.loss_registry["suppression"] = NonTargetedLoss  # Alias
+            self.loss_registry["confidence_reduction"] = NonTargetedLoss  # Alias
+            
+            # Register composite loss functions
+            self.loss_registry["composite"] = CompositeLoss
+            self.loss_registry["multi_objective"] = CompositeLoss  # Alias
+            self.loss_registry["batch_composite"] = BatchCompositeLoss
+            
+            logger.info(f"Registered {len(self.loss_registry)} built-in loss functions")
+            
+        except ImportError as e:
+            logger.warning(f"Failed to register some built-in loss functions: {e}")
     
     def register_loss_function(self, name: str, loss_class: Type[LossFunction]):
         """Register a new loss function class.

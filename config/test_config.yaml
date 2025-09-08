@@ -1,0 +1,44 @@
+# Test Configuration for VLM Adversarial Patch Testing
+
+# Test data configuration  
+test_data:
+  # Sample test images for basic inference validation
+  test_images:
+    - "tests/data/sample_robot.jpg"
+    - "tests/data/sample_medical.jpg" 
+    - "tests/data/sample_manufacturing.jpg"
+    
+  # Test prompts for different scenarios
+  test_prompts:
+    general: "Describe what you see in this image."
+    safety: "Is there anything unsafe or concerning in this image?"
+    robot_task: "What task should the robot perform based on this image?"
+    
+# Test scenarios (for future exhibition presets)
+scenarios:
+  healthcare:
+    name: "Healthcare Robot Navigation"
+    description: "Robot navigating hospital hallways"
+    image_context: "medical equipment, hospital corridors, patients"
+    
+  manufacturing:
+    name: "Industrial Quality Control" 
+    description: "Robot inspecting manufactured parts"
+    image_context: "assembly line, mechanical parts, quality checks"
+    
+  autonomous:
+    name: "Autonomous Vehicle Vision"
+    description: "Self-driving car visual perception"
+    image_context: "road signs, traffic, pedestrians"
+
+# Test execution settings
+testing:
+  timeout_seconds: 30
+  max_retries: 3
+  memory_check_interval: 5
+  
+  # Performance benchmarks
+  benchmarks:
+    max_inference_time_seconds: 5
+    max_memory_usage_gb: 16
+    min_success_rate_percent: 90

@@ -1,6 +1,6 @@
 # VLM Adversarial Patch Finder
 
-> 🚧 **Development Status**: 30% Complete (3/10 tasks finished)  
+> 🚧 **Development Status**: 45% Complete (4.8/10 tasks finished)  
 > A research framework for generating and demonstrating adversarial patches against Vision-Language Models (VLMs)
 
 ## 🎯 Project Overview
@@ -31,6 +31,14 @@ The VLM Adversarial Patch Finder is an AI security demonstration system designed
 - **Factory Pattern**: Easy configuration and instantiation
 - **Testing**: 128/128 loss function tests passing
 
+### 4. Patch Optimization Core (Task #11) 
+- **Optimization Engine**: PyTorch-based gradient optimization with multiple algorithms
+- **EOT Support**: Expectation Over Transformation for robust patches
+- **Constraints**: Pixel bounds, smoothness, total variation constraints
+- **Initialization**: Multiple strategies (random, noise, gradient-based)
+- **Checkpointing**: State persistence for long-running optimizations
+- **Testing**: 10/10 optimization tests passing
+
 ## 🏗️ Architecture
 
 ```
@@ -38,6 +46,12 @@ src/
 ├── data/
 │   ├── dataset.py         # PyTorch Dataset/DataLoader
 │   └── preprocessing.py   # Image processing pipeline
+├── generation/            # [NEW] Patch generation workflow
+│   ├── config.py         # Configuration management
+│   ├── batch_processor.py # Batch processing engine
+│   ├── io_handlers.py    # Multi-format I/O operations
+│   ├── visualization.py  # Real-time monitoring
+│   └── metadata.py       # Experiment tracking
 ├── losses/
 │   ├── base.py           # Abstract loss function framework
 │   ├── targeted.py       # Targeted attack losses
@@ -47,6 +61,12 @@ src/
 ├── models/
 │   ├── vlm_loader.py     # Base VLM loader
 │   └── gemma_vlm.py      # Gemma-3 implementation
+├── optimization/          # [NEW] Patch optimization core
+│   ├── optimizer.py      # Main optimization engine
+│   ├── eot.py           # Expectation Over Transformation
+│   ├── constraints.py    # Constraint handling
+│   ├── initialization.py # Patch initialization
+│   └── checkpointing.py  # State persistence
 └── utils/
     ├── image_utils.py    # Image processing utilities
     └── memory_utils.py   # System memory monitoring
@@ -157,6 +177,41 @@ composite_loss = factory.create_loss_function(
 )
 ```
 
+#### 4. Patch Generation (NEW!)
+
+```python
+# Command-line interface for patch generation
+python scripts/generate_patches.py \
+    --config configs/example_default.yaml \
+    --input images/ \
+    --output patches/ \
+    --max-iter 1000 \
+    --device cuda
+
+# Python API for patch generation
+from src.optimization import PatchOptimizer, OptimizationConfig
+from src.generation import BatchGenerationSession
+
+# Configure optimization
+config = OptimizationConfig(
+    max_iterations=1000,
+    learning_rate=0.01,
+    optimizer_type='adam'
+)
+
+# Create batch session
+session = BatchGenerationSession(
+    generation_config=config,
+    strategy='parallel'
+)
+
+# Generate patches for multiple images
+results = session.process_images(
+    image_paths=['img1.jpg', 'img2.png'],
+    resume_from_checkpoint=True
+)
+```
+
 ### Running Tests
 
 ```bash
@@ -176,11 +231,11 @@ pytest tests/test_loss_base.py -v       # Loss function tests
 | Environment & Model Setup | ✅ Complete | 21/21 | VLM loading and inference |
 | Data Pipeline | ✅ Complete | 70/70 | Image processing and datasets |
 | Loss Functions | ✅ Complete | 128/128 | Adversarial loss implementations |
-| Patch Optimization Core | 🔄 Pending | - | Gradient-based optimization |
+| Patch Optimization Core | ✅ Complete | 10/10 | Gradient-based optimization with EOT |
+| Patch Generation Script | 🟡 80% Done | - | CLI and batch processing implemented |
 | Camera Integration | 🔄 Pending | - | Live webcam feed processing |
 | Demo Interface | 🔄 Pending | - | Gradio web application |
 | Exhibition Presets | 🔄 Pending | - | Healthcare/manufacturing scenarios |
-| Patch Generation Script | 🔄 Pending | - | End-to-end patch creation |
 | Testing & Validation | 🔄 Pending | - | System reliability testing |
 | Documentation & Packaging | 🔄 Pending | - | Deployment documentation |
 
@@ -267,8 +322,9 @@ loss_configs = {
 ### GitHub Issues
 
 - **Epic Issue**: [#1](https://github.com/rize0528/robo_adversarial_learning_kit/issues/1)
-- **Completed Tasks**: [#3](https://github.com/rize0528/robo_adversarial_learning_kit/issues/3), [#5](https://github.com/rize0528/robo_adversarial_learning_kit/issues/5), [#10](https://github.com/rize0528/robo_adversarial_learning_kit/issues/10)
-- **Active Tasks**: [#2](https://github.com/rize0528/robo_adversarial_learning_kit/issues/2), [#4](https://github.com/rize0528/robo_adversarial_learning_kit/issues/4), [#6-9](https://github.com/rize0528/robo_adversarial_learning_kit/issues/6), [#11](https://github.com/rize0528/robo_adversarial_learning_kit/issues/11)
+- **Completed Tasks**: [#3](https://github.com/rize0528/robo_adversarial_learning_kit/issues/3), [#5](https://github.com/rize0528/robo_adversarial_learning_kit/issues/5), [#10](https://github.com/rize0528/robo_adversarial_learning_kit/issues/10), [#11](https://github.com/rize0528/robo_adversarial_learning_kit/issues/11)
+- **In Progress**: [#7](https://github.com/rize0528/robo_adversarial_learning_kit/issues/7) (80% complete)
+- **Pending Tasks**: [#2](https://github.com/rize0528/robo_adversarial_learning_kit/issues/2), [#4](https://github.com/rize0528/robo_adversarial_learning_kit/issues/4), [#6](https://github.com/rize0528/robo_adversarial_learning_kit/issues/6), [#8](https://github.com/rize0528/robo_adversarial_learning_kit/issues/8), [#9](https://github.com/rize0528/robo_adversarial_learning_kit/issues/9)
 
 ### Contributing
 
@@ -300,4 +356,4 @@ This project is licensed under the terms specified in the LICENSE file.
 
 ---
 
-**Status**: Active Development | **Version**: 0.3.0 | **Updated**: 2025-09-08
+**Status**: Active Development | **Version**: 0.4.5 | **Updated**: 2025-09-09
